@@ -1,22 +1,35 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleApp
 {
     class Program
     {
-        private static IConfiguration _configuration;
         static void Main(string[] args)
         {
-            LoadConfiguration();
-            
-            Console.WriteLine("conn: " + _configuration.GetConnectionString("DefaultConnection"));
+            var services = ConfigureServices();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            serviceProvider.GetService<Startup>().Run();
         }
 
-        private static void LoadConfiguration()
+        public static IServiceCollection ConfigureServices()
         {
-            _configuration = (new ConfigurationBuilder())
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton<IConfiguration>(Configuration());
+
+            services.AddTransient<Startup>();
+
+            return services;
+        }
+
+        private static IConfiguration Configuration()
+        {
+            return (new ConfigurationBuilder())
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
