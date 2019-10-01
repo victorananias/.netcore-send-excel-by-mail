@@ -12,7 +12,6 @@ namespace ConsoleApp
         }
         public void Run()
         {
-            Console.WriteLine("paaaa:" + _configuration.GetConnectionString("DefaultConnection"));
         }
     }
 }

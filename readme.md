@@ -8,3 +8,4 @@
 * Microsoft.Extensions.Configuration.Json
 
 ### Dependency Injection
+* Microsoft.Extensions.DependencyInjection;
