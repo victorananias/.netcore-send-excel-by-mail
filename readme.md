@@ -9,3 +9,8 @@
 
 ### Dependency Injection
 * Microsoft.Extensions.DependencyInjection;
+
+## Publish
+``
+dotnet publish -c release -o ./bin/publish
+``
