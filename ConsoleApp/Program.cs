@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using ConsoleApp.Installers;
+using ConsoleApp.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,9 +24,17 @@ namespace ConsoleApp
 
             var configuration = Configuration();
 
+            Console.WriteLine(configuration.GetConnectionString("DefaultConnection"));
+
             services.AddSingleton<IConfiguration>(configuration);
 
+            services.InstallServicesAssembly(configuration);
+
             services.AddTransient<Startup>();
+
+            services.AddOptions();
+
+            services.Configure<AppSettings>(configuration);
 
             return services;
         }
