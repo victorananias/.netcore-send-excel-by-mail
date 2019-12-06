@@ -358,5 +358,4 @@ MigrationBackup/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# settings
-appsettings.json
+.idea
