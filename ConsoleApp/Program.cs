@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using ConsoleApp.Installers;
 using ConsoleApp.Settings;
 using Microsoft.Extensions.Configuration;
@@ -9,13 +10,11 @@ namespace ConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var services = ConfigureServices();
-
             var serviceProvider = services.BuildServiceProvider();
-
-            serviceProvider.GetService<Startup>().Run();
+            await serviceProvider.GetService<Startup>().Run();
         }
 
         public static IServiceCollection ConfigureServices()
@@ -23,8 +22,6 @@ namespace ConsoleApp
             IServiceCollection services = new ServiceCollection();
 
             var configuration = Configuration();
-
-            Console.WriteLine(configuration.GetConnectionString("DefaultConnection"));
 
             services.AddSingleton<IConfiguration>(configuration);
 

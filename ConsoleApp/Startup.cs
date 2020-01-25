@@ -1,21 +1,23 @@
 using System;
+using System.Threading.Tasks;
+using ConsoleApp.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace ConsoleApp
 {
     public class Startup
     {
-        private IConfiguration _configuration;
+        private IExampleService _service;
         public Startup(
-            IConfiguration configuration
+            IExampleService service
         )
         {
-            _configuration = configuration;
+            _service = service;
         }
 
-        public void Run()
+        public async Task Run()
         {
-            Console.WriteLine("Hello World");
+           await  _service.Example("Hello World");
         }
     }
 }
