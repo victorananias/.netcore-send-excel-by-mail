@@ -43,5 +43,6 @@ namespace ConsoleApp
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
         }
+        
     }
 }
