@@ -1,4 +1,6 @@
-# Base DotNetCore Console App
+# .Net Core Console App DI Boilerplate
+
+
 
 ## Packages
 
