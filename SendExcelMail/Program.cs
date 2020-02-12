@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using ConsoleApp.Installers;
-using ConsoleApp.Settings;
+using SendExcelMail.Installers;
+using SendExcelMail.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ConsoleApp
+namespace SendExcelMail
 {
     class Program
     {
@@ -14,20 +14,20 @@ namespace ConsoleApp
         {
             var services = ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();
-            await serviceProvider.GetService<Startup>().Run();
+            await serviceProvider.GetService<Main>().Run();
         }
 
-        public static IServiceCollection ConfigureServices()
+        private static IServiceCollection ConfigureServices()
         {
             IServiceCollection services = new ServiceCollection();
 
             var configuration = Configuration();
 
-            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton(configuration);
 
             services.InstallServicesAssembly(configuration);
 
-            services.AddTransient<Startup>();
+            services.AddTransient<Main>();
 
             services.AddOptions();
 

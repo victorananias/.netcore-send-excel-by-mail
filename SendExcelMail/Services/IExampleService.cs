@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ConsoleApp.Services
+namespace SendExcelMail.Services
 {
     public interface IExampleService
     {
