@@ -15,7 +15,6 @@ namespace SendExcelByEmail
         private IMailService _mailService;
 
         public Main(
-            IOptions<AppSettings> settings,
             IProductsService productsService,
             IExcelProductsService excelProductsService, IMailService mailService)
         {
