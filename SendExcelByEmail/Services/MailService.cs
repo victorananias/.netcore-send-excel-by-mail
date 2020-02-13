@@ -23,11 +23,11 @@ namespace SendExcelByEmail.Services
         public MailService(IOptions<AppSettings> appSettings)
         {
             _attachments = new List<Attachment>();
-            
+
             var settings = appSettings.Value.MailSettings;
             _host = settings.Host;
             _port = settings.Port;
-            
+
             try
             {
                 _from = new MailAddress(string.IsNullOrEmpty(settings.From) ? settings.Username : settings.From);
@@ -64,9 +64,10 @@ namespace SendExcelByEmail.Services
             return this;
         }
 
-        public IMailService AddAttachment(MemoryStream ms, ContentType type)
+        public IMailService AddAttachment(Stream stream, string mediaType, string name)
         {
-            _attachments.Add(new Attachment(ms, type));
+            var attachment = new Attachment(stream, name, mediaType);
+            _attachments.Add(attachment);
             return this;
         }
 
@@ -85,20 +86,21 @@ namespace SendExcelByEmail.Services
                 Body = body,
                 IsBodyHtml = isBodyHtml
             };
-            
-            _attachments.ForEach(attachment =>
-            {
-                message.Attachments.Add(attachment);
-            });
 
-            AddAdress(message.To, _to);
-            AddAdress(message.CC, _cc);
-            AddAdress(message.Bcc, _bcc);
+            AddAttachmentsToMessage(message);
+            AddAdressToMailCollection(message.To, _to);
+            AddAdressToMailCollection(message.CC, _cc);
+            AddAdressToMailCollection(message.Bcc, _bcc);
 
             client.Send(message);
         }
 
-        private void AddAdress(MailAddressCollection mail, string adresses)
+        private void AddAttachmentsToMessage(MailMessage message)
+        {
+            _attachments.ForEach(attachment => message.Attachments.Add(attachment));
+        }
+
+        private void AddAdressToMailCollection(MailAddressCollection mail, string adresses)
         {
             if (string.IsNullOrEmpty(adresses))
             {

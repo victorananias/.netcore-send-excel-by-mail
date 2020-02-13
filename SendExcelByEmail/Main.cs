@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using SendExcelByEmail.Services;
@@ -13,8 +15,8 @@ namespace SendExcelByEmail
         private IMailService _mailService;
 
         public Main(
-            IOptions<AppSettings> settings, 
-            IProductsService productsService, 
+            IOptions<AppSettings> settings,
+            IProductsService productsService,
             IExcelProductsService excelProductsService, IMailService mailService)
         {
             _productsService = productsService;
@@ -26,12 +28,15 @@ namespace SendExcelByEmail
         {
             var products = _productsService.GetProducts(15);
             var excel = await _excelProductsService.Get(products);
-            
+
             _mailService
-                .From("example@mail.com.br")
-                .To("example2@mail.com.br")
-                .AddAttachment(excel, new ContentType("application/vnd.ms-excel"))
-                .Send("teste", "esse é o email", false);
+                .To("victor@ananias.dev")
+                .AddAttachment(
+                    excel,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    DateTime.Now.ToString("hhmmssddMMyyyy") + ".xlsx"
+                )
+                .Send("mail subject", "this is the email", false);
         }
     }
 }

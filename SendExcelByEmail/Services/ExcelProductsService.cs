@@ -39,10 +39,12 @@ namespace SendExcelByEmail.Services
             
             ws.Columns(1, 3).AdjustToContents();
 
-            await using var memoryStream = new MemoryStream();
+            var memoryStream = new MemoryStream();
             
             _workbook.SaveAs(memoryStream);
 
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            
             return memoryStream;
         }
     }
