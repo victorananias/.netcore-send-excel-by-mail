@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
-using SendExcelMail.Models;
+using SendExcelByEmail.Models;
 
-namespace SendExcelMail.Services
+namespace SendExcelByEmail.Services
 {
     public class ExcelProductsService : IExcelProductsService
     {
-        private readonly XLWorkbook _workbook;
+        private readonly IXLWorkbook _workbook;
 
-        public ExcelProductsService(XLWorkbook workbook)
+        public ExcelProductsService(IXLWorkbook workbook)
         {
             _workbook = workbook;
         }
@@ -31,7 +31,6 @@ namespace SendExcelMail.Services
             var i = 2;
             foreach (var product in products)
             {
-                Console.WriteLine(product.Price.ToString("0.00"));
                 ws.Cell($"A{i}").Value = product.Id;
                 ws.Cell($"B{i}").Value = product.Name;
                 ws.Cell($"C{i}").Value = product.Price.ToString("0.00");

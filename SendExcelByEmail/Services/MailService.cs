@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using Microsoft.Extensions.Options;
-using SendExcelMail.Settings;
+using SendExcelByEmail.Settings;
 
-namespace SendExcelMail.Services
+namespace SendExcelByEmail.Services
 {
-    public class MailService
+    public class MailService : IMailService
     {
         private string _host;
         private int _port;
@@ -15,13 +18,25 @@ namespace SendExcelMail.Services
         private string _to;
         private MailAddress _from;
         private NetworkCredential _credentials;
+        private List<Attachment> _attachments;
 
         public MailService(IOptions<AppSettings> appSettings)
         {
+            _attachments = new List<Attachment>();
+            
             var settings = appSettings.Value.MailSettings;
             _host = settings.Host;
             _port = settings.Port;
-            _from = new MailAddress(string.IsNullOrEmpty(settings.From) ? settings.Username : settings.From);
+            
+            try
+            {
+                _from = new MailAddress(string.IsNullOrEmpty(settings.From) ? settings.Username : settings.From);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
             _credentials = new NetworkCredential(settings.Username, settings.Password);
         }
 
@@ -49,6 +64,12 @@ namespace SendExcelMail.Services
             return this;
         }
 
+        public IMailService AddAttachment(MemoryStream ms, ContentType type)
+        {
+            _attachments.Add(new Attachment(ms, type));
+            return this;
+        }
+
         public void Send(string subject, string body, bool isBodyHtml = true)
         {
             using var client = new SmtpClient(_host, _port)
@@ -64,6 +85,11 @@ namespace SendExcelMail.Services
                 Body = body,
                 IsBodyHtml = isBodyHtml
             };
+            
+            _attachments.ForEach(attachment =>
+            {
+                message.Attachments.Add(attachment);
+            });
 
             AddAdress(message.To, _to);
             AddAdress(message.CC, _cc);

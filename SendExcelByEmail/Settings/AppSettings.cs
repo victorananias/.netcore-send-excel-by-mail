@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SendExcelMail.Settings
+namespace SendExcelByEmail.Settings
 {
     public class MailSettings
     {

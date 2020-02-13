@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using SendExcelMail.Models;
+using SendExcelByEmail.Models;
 
-namespace SendExcelMail.Services
+namespace SendExcelByEmail.Services
 {
     public interface IExcelProductsService
     {

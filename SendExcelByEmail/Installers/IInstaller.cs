@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SendExcelMail.Installers
+namespace SendExcelByEmail.Installers
 {
     interface IInstaller
     {

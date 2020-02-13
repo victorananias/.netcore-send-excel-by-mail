@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using SendExcelMail.Models;
+using SendExcelByEmail.Models;
 
-namespace SendExcelMail.Services
+namespace SendExcelByEmail.Services
 {
     public interface IProductsService
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SendExcelMail.Installers
+namespace SendExcelByEmail.Installers
 {
     public static class InstallerExtensions
     {

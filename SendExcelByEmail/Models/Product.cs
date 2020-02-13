@@ -1,4 +1,4 @@
-﻿namespace SendExcelMail.Models
+﻿namespace SendExcelByEmail.Models
 {
     public class Product
     {

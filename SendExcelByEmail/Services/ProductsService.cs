@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using SendExcelMail.Models;
+using SendExcelByEmail.Models;
 
-namespace SendExcelMail.Services
+namespace SendExcelByEmail.Services
 {
     public class ProductsService : IProductsService
     {
