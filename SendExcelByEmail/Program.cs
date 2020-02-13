@@ -30,19 +30,27 @@ namespace SendExcelByEmail
             services.AddTransient<Main>();
 
             services.AddOptions();
-
-            services.Configure<AppSettings>(configuration);
+            
+            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
 
             return services;
         }
 
         private static IConfiguration Configuration()
         {
-            return (new ConfigurationBuilder())
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
+            try
+            {
+                return new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", false, true)
+                    .Build();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(0);
+                return null;
+            }
         }
-        
     }
 }

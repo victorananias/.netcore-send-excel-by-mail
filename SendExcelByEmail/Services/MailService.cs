@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendExcelByEmail.Settings;
 
@@ -20,11 +21,12 @@ namespace SendExcelByEmail.Services
         private NetworkCredential _credentials;
         private List<Attachment> _attachments;
 
-        public MailService(IOptions<AppSettings> appSettings)
+        public MailService(IOptions<MailSettings> mailSettings)
         {
+            var settings = mailSettings.Value;
+            
             _attachments = new List<Attachment>();
 
-            var settings = appSettings.Value.MailSettings;
             _host = settings.Host;
             _port = settings.Port;
 
@@ -40,25 +42,25 @@ namespace SendExcelByEmail.Services
             _credentials = new NetworkCredential(settings.Username, settings.Password);
         }
 
-        public MailService From(string from, string fromName = null)
+        public IMailService From(string from, string fromName = null)
         {
             _from = new MailAddress(from, fromName);
             return this;
         }
 
-        public MailService CC(string cc)
+        public IMailService CC(string cc)
         {
             _cc = cc;
             return this;
         }
 
-        public MailService BCC(string bcc)
+        public IMailService BCC(string bcc)
         {
             _bcc = bcc;
             return this;
         }
 
-        public MailService To(string to)
+        public IMailService To(string to)
         {
             _to = to;
             return this;
